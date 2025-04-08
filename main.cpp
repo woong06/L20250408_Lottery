@@ -20,7 +20,7 @@ void Initialize()
 void Shuffle()
 {
 	int temp = 0;
-	for (int Index = 1; Index < Lottery_Balls + 1; Index++)
+	for (int Index = 0; Index < Lottery_Balls; Index++)
 	{
 		int Random = rand() % Lottery_Balls;
 		temp = Lottery[Index];
@@ -51,20 +51,72 @@ void Result()
 		cout << Lottery[Count] << " ";
 	}
 	cout << endl;
+	cout << "보너스 번호 : " << Lottery[6] << endl;
+	cout << endl;
 }
-// 1등 : 6개 일치
-// 2등 : 5개 + 보너스 번호
-// 3등 : 5개 일치
-// 4등 : 4개 일치
-// 5등 : 3개 일치
-// 꽝 : 2개 이하
+void PrizeCondition()
+{
+
+	// 1등 : 6개 일치
+	// 2등 : 5개 + 보너스 번호
+	// 3등 : 5개 일치
+	// 4등 : 4개 일치
+	// 5등 : 3개 일치
+	// 꽝 : 2개 이하
+	int MatchCount = 0;
+	bool Bonus_Match = false;
+
+	for (int i = 0; i < 6; i++)
+	{
+		for (int j = 0; j < 6; j++)
+		{
+			if (User[i] == Lottery[j])
+			{
+				MatchCount++;
+				break;
+			}
+		}
+		if (User[i] == Lottery[6])
+		{
+			Bonus_Match = true;
+		}
+	}
+
+	if (MatchCount == 6)
+	{
+		cout << "1등입니다!" << endl;
+	}
+	else if (MatchCount == 5 && Bonus_Match)
+	{
+		cout << "2등입니다!" << endl;
+	}
+	else if (MatchCount == 5)
+	{
+		cout << "3등입니다!" << endl;
+	}
+	else if (MatchCount == 4)
+	{
+		cout << "4등입니다!" << endl;
+	}
+	else if (MatchCount == 3)
+	{
+		cout << "5등입니다!" << endl;
+	}
+	else
+	{
+		cout << "꽝입니다!" << endl;
+	}
+}
 
 int main()
 {
+	srand((unsigned)time(NULL));
+
 	Initialize();
 	Shuffle();
 	UserNumber();
 	Result();
+	PrizeCondition();
 
 	return 0;
 }
